@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
@@ -31,7 +31,7 @@ jobs:
 
       - name: Get Publish Profile
         run: |
-          echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g 'dotnet-hotchocolate-rg' -n 'dotnet-hotchocolate-app' --xml)"
+          echo "PUBLISH_PROFILE=$(az webapp deployment list-publishing-profiles -g 'dotnet-hotchocolate-rg' -n 'dotnet-hotchocolate-app' --xml)" >> $GITHUB_OUTPUT
         id: getPublishProfile
 
   build:
@@ -74,6 +74,11 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: dotnet-app
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy to Azure App Service
       uses: azure/webapps-deploy@v2
