@@ -1,8 +1,3 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "dotnet-hotchocolate-rg"
-  location = "West Europe"
-}
-
 resource "azurerm_service_plan" "asp" {
   name                = "dotnet-hotchocolate-asp"
   location            = azurerm_resource_group.rg.location

@@ -29,6 +29,19 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: azure
 
+      - name: Get Untracked Items
+        run: |
+          echo "HAVE_UNTRACKED=$(git diff-index --quiet HEAD -- || echo 'untracked')" >> $GITHUB_OUTPUT
+        id: getUntrackedItems
+
+      - name: Commit state
+        if: ${{ steps.getUntrackedItems.outputs.HAVE_UNTRACKED == 'untracked' }}
+        run: |
+          git config --global user.name 'Eduardo Carisio'
+          git config --global user.email 'eduardo_carisio@hotmail.com'
+          git commit -am "Update tfstate by action [skip ci]"
+          git push
+
       - name: Get Publish Profile
         run: |
           echo "PUBLISH_PROFILE=$(az webapp deployment list-publishing-profiles -g 'dotnet-hotchocolate-rg' -n 'dotnet-hotchocolate-app' --xml)" >> $GITHUB_OUTPUT
