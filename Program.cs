@@ -41,10 +41,11 @@ public class Program
         var app = builder.Build();
 
         app.UseRouting();
-
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapGraphQL();
         });
+
+        app.Run();
     }
 }
