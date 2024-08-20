@@ -20,9 +20,11 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
+        working-directory: ./azure
 
       - name: Apply Terraform
         run: terraform apply -auto-approve
+        working-directory: ./azure
 
       - name: Get Publish Profile
         run: |
