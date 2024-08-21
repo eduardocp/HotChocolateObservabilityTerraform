@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          sparse-checkout: azure # Checkout only the azure directory
+          sparse-checkout: terraform/azure # Checkout only the azure directory
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -25,19 +25,19 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
-        working-directory: terraform
+        working-directory: terraform/azure
 
       - name: Apply Terraform
         run: terraform apply -auto-approve
-        working-directory: terraform
+        working-directory: terraform/azure
 
       - name: Commit state # Save the Terraform state to prevent errors and wrong changes in the future runnings. There are better ways to do this, but this is a simple way to do it.
         run: |
           git config --global user.name 'Eduardo Carisio'
           git config --global user.email 'eduardo_carisio@hotmail.com'
-          git add terraform/.terraform.lock.hcl
-          git add terraform/terraform.tfstate
-          git commit -m "🏗️ Automatically Updated Terraform State. [skip ci]"
+          git add terraform/azure/.terraform.lock.hcl
+          git add terraform/azure/terraform.tfstate
+          git commit -m "🏗️ Automatically Updated Azure Terraform State. [skip ci]"
           git push
 
       - name: Get Publish Profile # Get the publish profile to deploy the app
