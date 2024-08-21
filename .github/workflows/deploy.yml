@@ -33,6 +33,7 @@ jobs:
         run: |
           git config --global user.name 'Eduardo Carisio'
           git config --global user.email 'eduardo_carisio@hotmail.com'
+          git add azure/.terraform.lock.hcl
           git add azure/terraform.tfstate
           git commit -m "🏗️ Automatically Updated Terraform State. [skip ci]"
           git push
