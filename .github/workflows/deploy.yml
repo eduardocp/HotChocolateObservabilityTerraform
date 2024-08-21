@@ -56,14 +56,8 @@ jobs:
       with:
         dotnet-version: '8.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
     - name: Publish
-      run: dotnet publish --configuration Release --output ./output
+      run: dotnet publish --configuration Release --property:PublishDir=./output --self-contained
 
     - name: Azure Login
       uses: azure/login@v2
